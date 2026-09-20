@@ -220,9 +220,8 @@ body:before{
 </style>
 
 <style id="golf-aim-reference-home-v1">
-/* 2026-09-21: align the home screen with the approved blue GOLF AiM reference image. */
+/* 2026-09-21 v2: closer match to the approved blue GOLF AiM reference. */
 
-/* Remove the iOS frosted-glass effect from every fixed app header. */
 .aim-brand,
 .aim-settings-head,
 .aim-series-head,
@@ -235,7 +234,6 @@ body:before{
   filter:none!important;
 }
 
-/* Non-home headers stay crisp and opaque. */
 .aim-settings-head,
 .aim-series-head,
 .aim-analysis-head,
@@ -245,7 +243,8 @@ body:before{
   background:#fff!important;
 }
 
-/* Home hero: compact blue golf visual inspired by the reference image. */
+/* Hero: suppress the pale/foggy top of the source photo with a stronger,
+   clean blue overlay while retaining golf-course texture lower down. */
 .aim-brand{
   min-height:190px!important;
   height:190px!important;
@@ -258,10 +257,10 @@ body:before{
   gap:4px!important;
   overflow:hidden!important;
   border-bottom:0!important;
-  box-shadow:0 5px 18px rgba(17,82,126,.16)!important;
-  background-color:#168bd7!important;
+  box-shadow:0 5px 18px rgba(17,82,126,.14)!important;
+  background-color:#159ce4!important;
   background-size:cover!important;
-  background-position:center 56%!important;
+  background-position:center 62%!important;
   background-repeat:no-repeat!important;
 }
 .aim-brand h1{
@@ -274,26 +273,22 @@ body:before{
   line-height:1.05!important;
   font-weight:850!important;
   letter-spacing:.035em!important;
-  text-shadow:0 2px 10px rgba(0,62,112,.25)!important;
+  text-shadow:0 2px 8px rgba(0,70,120,.24)!important;
 }
 .aim-brand p{
   position:relative!important;
   z-index:2!important;
   margin:5px 0 0!important;
-  color:rgba(255,255,255,.94)!important;
+  color:#fff!important;
   font-size:13px!important;
   line-height:1.4!important;
-  font-weight:650!important;
+  font-weight:700!important;
   letter-spacing:.08em!important;
-  text-shadow:0 1px 7px rgba(0,62,112,.28)!important;
+  text-shadow:0 1px 6px rgba(0,70,120,.24)!important;
 }
 
-/* The reference is visual-first, so remove the redundant section heading/copy. */
-.aim-home-intro{
-  display:none!important;
-}
+.aim-home-intro{display:none!important}
 
-/* Menu cards: white, light, compact and icon-led. */
 .aim-modes{
   grid-template-columns:1fr 1fr!important;
   gap:12px!important;
@@ -318,22 +313,15 @@ body:before{
   place-items:center!important;
   border-radius:15px!important;
   background:#e7f5fd!important;
-  color:#1596df!important;
+  color:#179be3!important;
   font-size:0!important;
 }
 .aim-mode-icon svg{
-  width:27px!important;
-  height:27px!important;
-  stroke:currentColor!important;
-  fill:none!important;
-  stroke-width:2.15!important;
-  stroke-linecap:round!important;
-  stroke-linejoin:round!important;
+  width:29px!important;
+  height:29px!important;
+  overflow:visible!important;
 }
-.aim-mode-copy{
-  width:100%!important;
-  padding:0!important;
-}
+.aim-mode-copy{width:100%!important;padding:0!important}
 .aim-mode-copy small{
   display:block!important;
   margin:0 0 6px!important;
@@ -370,7 +358,6 @@ body:before{
   font-weight:500!important;
 }
 
-/* Analysis becomes part of the same home-card family. */
 .aim-utilities{
   display:block!important;
   margin:0!important;
@@ -384,7 +371,6 @@ body:before{
   display:flex!important;
   align-items:center!important;
   justify-content:flex-start!important;
-  gap:11px!important;
   border:1px solid #d5e4ee!important;
   border-radius:18px!important;
   background:#fff!important;
@@ -407,15 +393,7 @@ body:before{
   background:#e7f5fd!important;
   color:#1596df!important;
 }
-.ga-analysis-icon svg{
-  width:21px!important;
-  height:21px!important;
-  stroke:currentColor!important;
-  fill:none!important;
-  stroke-width:2.1!important;
-  stroke-linecap:round!important;
-  stroke-linejoin:round!important;
-}
+.ga-analysis-icon svg{width:22px!important;height:22px!important}
 .ga-analysis-arrow{
   position:absolute!important;
   right:18px!important;
@@ -426,21 +404,63 @@ body:before{
   line-height:1!important;
   font-weight:600!important;
 }
-.aim-home footer{
-  display:none!important;
-}
 
-/* Keep the overall home surface light-blue like the reference. */
+.aim-home footer{display:none!important}
 .aim-home{
   background:linear-gradient(180deg,#eef7fc 0%,#f4f8fb 62%,#f7fafc 100%)!important;
   min-height:100dvh!important;
+  padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))!important;
+}
+
+/* Fixed bottom navigation, matching the reference screen. */
+.aim-bottom-nav{
+  position:fixed!important;
+  left:50%!important;
+  bottom:0!important;
+  transform:translateX(-50%)!important;
+  z-index:120!important;
+  width:min(100%,520px)!important;
+  min-height:66px!important;
+  padding:7px 10px calc(6px + env(safe-area-inset-bottom,0px))!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,1fr)!important;
+  align-items:start!important;
+  background:rgba(255,255,255,.985)!important;
+  border-top:1px solid #d8e4ec!important;
+  box-shadow:0 -6px 20px rgba(36,79,108,.09)!important;
+}
+.aim-bottom-nav button{
+  min-height:52px!important;
+  padding:3px 2px 0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:2px!important;
+  border:0!important;
+  background:transparent!important;
+  color:#778c9d!important;
+  font-size:10px!important;
+  line-height:1.1!important;
+  font-weight:750!important;
+}
+.aim-bottom-nav button[aria-current="page"]{
+  color:#179be3!important;
+}
+.aim-bottom-nav svg{
+  width:25px!important;
+  height:25px!important;
+  display:block!important;
+}
+.aim-bottom-nav .ga-nav-label{
+  display:block!important;
+  font-size:10px!important;
+  line-height:1.1!important;
+  font-weight:750!important;
 }
 
 @media(max-width:390px){
-  .aim-brand{
-    min-height:176px!important;
-    height:176px!important;
-  }
+  .aim-brand{min-height:176px!important;height:176px!important}
   .aim-brand h1{font-size:31px!important}
   .aim-modes{gap:9px!important;padding:14px 10px 10px!important}
   .aim-mode{min-height:158px!important;padding:13px 12px 14px!important}
@@ -1367,14 +1387,60 @@ react/cjs/react-jsx-runtime.production.js:
   "use strict";
 
   const ICONS = {
-    "ショット練習": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="1.4"></circle><path d="M17.7 6.3 21 3"></path><path d="M18.6 3H21v2.4"></path></svg>',
-    "コース想定": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21V3"></path><path d="M7 4h9l-2.2 3L16 10H7"></path><path d="M4 21h7"></path></svg>',
-    "練習履歴": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9"></path><path d="M10 19V5"></path><path d="M16 19V12"></path><path d="M22 19V3"></path></svg>',
-    "クラブ設定": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.86 2.86-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H9.4v-.1A1.7 1.7 0 0 0 9 19.8a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.86-2.86.06-.06A1.7 1.7 0 0 0 3.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H1.8V9.4h.1A1.7 1.7 0 0 0 3 9a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88L3.2 6.06 6.06 3.2l.06.06A1.7 1.7 0 0 0 8 3.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V1.8h4.2v.1A1.7 1.7 0 0 0 14 3a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.86 2.86-.06.06A1.7 1.7 0 0 0 19.4 8c.15.38.36.72.6 1 .29.27.67.41 1.1.4h.1v4.2h-.1a1.7 1.7 0 0 0-1.1.4 1.7 1.7 0 0 0-.6 1z"></path></svg>',
-    "分析": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V11"></path><path d="M12 19V6"></path><path d="M19 19V3"></path></svg>'
+    "ショット練習": '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="15" cy="17" r="10" fill="none" stroke="#179be3" stroke-width="3"></circle><circle cx="15" cy="17" r="6" fill="none" stroke="#179be3" stroke-width="3"></circle><circle cx="15" cy="17" r="2.3" fill="#179be3"></circle></svg>',
+    "コース想定": '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M10 27V6" stroke="#179be3" stroke-width="3.2" stroke-linecap="round"></path><path d="M11 7h12l-3.2 4 3.2 4H11z" fill="#179be3"></path><ellipse cx="14.5" cy="27" rx="7.5" ry="2.7" fill="#36c99a"></ellipse></svg>',
+    "練習履歴": '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="17" width="5" height="10" rx="1.5" fill="#179be3"></rect><rect x="13.5" y="11" width="5" height="16" rx="1.5" fill="#179be3"></rect><rect x="22" y="5" width="5" height="22" rx="1.5" fill="#179be3"></rect></svg>',
+    "クラブ設定": '<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#179be3" d="M13.2 3h5.6l.8 3.2c.8.3 1.5.6 2.2 1.1l2.9-1.6 4 4-1.6 2.9c.5.7.8 1.4 1.1 2.2l3.2.8v5.6l-3.2.8c-.3.8-.6 1.5-1.1 2.2l1.6 2.9-4 4-2.9-1.6c-.7.5-1.4.8-2.2 1.1l-.8 3.2h-5.6l-.8-3.2c-.8-.3-1.5-.6-2.2-1.1l-2.9 1.6-4-4 1.6-2.9c-.5-.7-.8-1.4-1.1-2.2l-3.2-.8v-5.6l3.2-.8c.3-.8.6-1.5 1.1-2.2L3.3 9.7l4-4 2.9 1.6c.7-.5 1.4-.8 2.2-1.1L13.2 3zm2.8 8.2a6.8 6.8 0 1 0 0 13.6 6.8 6.8 0 0 0 0-13.6zm0 3.7a3.1 3.1 0 1 1 0 6.2 3.1 3.1 0 0 1 0-6.2z"></path></svg>',
+    "分析": '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="17" width="5" height="10" rx="1.5" fill="currentColor"></rect><rect x="13.5" y="11" width="5" height="16" rx="1.5" fill="currentColor"></rect><rect x="22" y="5" width="5" height="22" rx="1.5" fill="currentColor"></rect></svg>'
+  };
+
+  const NAV_ICONS = {
+    home: '<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M4 15.2 16 5l12 10.2v12.3a1.5 1.5 0 0 1-1.5 1.5h-7v-8.5h-7V29h-7A1.5 1.5 0 0 1 4 27.5z"></path></svg>',
+    history: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="8" y="5" width="16" height="22" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.8"></rect><path d="M12 11h8M12 16h8M12 21h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"></path></svg>',
+    analysis: '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="18" width="5" height="9" rx="1.4" fill="currentColor"></rect><rect x="13.5" y="12" width="5" height="15" rx="1.4" fill="currentColor"></rect><rect x="22" y="6" width="5" height="21" rx="1.4" fill="currentColor"></rect></svg>',
+    settings: '<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M13.2 3h5.6l.8 3.2c.8.3 1.5.6 2.2 1.1l2.9-1.6 4 4-1.6 2.9c.5.7.8 1.4 1.1 2.2l3.2.8v5.6l-3.2.8c-.3.8-.6 1.5-1.1 2.2l1.6 2.9-4 4-2.9-1.6c-.7.5-1.4.8-2.2 1.1l-.8 3.2h-5.6l-.8-3.2c-.8-.3-1.5-.6-2.2-1.1l-2.9 1.6-4-4 1.6-2.9c-.5-.7-.8-1.4-1.1-2.2l-3.2-.8v-5.6l3.2-.8c.3-.8.6-1.5 1.1-2.2L3.3 9.7l4-4 2.9 1.6c.7-.5 1.4-.8 2.2-1.1L13.2 3zm2.8 9a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 3.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z"></path></svg>'
   };
 
   let raf = 0;
+
+  const clickCard = (title) => {
+    const home = document.querySelector(".aim-home");
+    if (!home) return;
+    const card = [...home.querySelectorAll(".aim-mode")].find((btn) => {
+      const h2 = btn.querySelector("h2");
+      return h2 && h2.textContent.includes(title);
+    });
+    if (card) card.click();
+  };
+
+  const addBottomNav = (home) => {
+    if (home.querySelector(".aim-bottom-nav")) return;
+    const nav = document.createElement("nav");
+    nav.className = "aim-bottom-nav";
+    nav.setAttribute("aria-label","メインメニュー");
+    nav.innerHTML =
+      '<button type="button" aria-current="page" data-nav="home">' + NAV_ICONS.home + '<span class="ga-nav-label">ホーム</span></button>' +
+      '<button type="button" data-nav="history">' + NAV_ICONS.history + '<span class="ga-nav-label">履歴</span></button>' +
+      '<button type="button" data-nav="analysis">' + NAV_ICONS.analysis + '<span class="ga-nav-label">分析</span></button>' +
+      '<button type="button" data-nav="settings">' + NAV_ICONS.settings + '<span class="ga-nav-label">設定</span></button>';
+
+    nav.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-nav]");
+      if (!button) return;
+      const target = button.dataset.nav;
+      if (target === "home") {
+        window.scrollTo({top:0,left:0,behavior:"smooth"});
+      } else if (target === "history") {
+        clickCard("練習履歴");
+      } else if (target === "analysis") {
+        home.querySelector(".aim-home-analysis")?.click();
+      } else if (target === "settings") {
+        clickCard("クラブ設定");
+      }
+    });
+
+    home.appendChild(nav);
+  };
 
   const apply = () => {
     raf = 0;
@@ -1383,29 +1449,31 @@ react/cjs/react-jsx-runtime.production.js:
 
     const brand = home.querySelector(".aim-brand");
     const tee = window.GOLF_AIM_ASSETS && window.GOLF_AIM_ASSETS.tee;
-    if (brand && tee && !brand.dataset.heroApplied) {
+    if (brand && tee) {
       brand.style.setProperty(
         "background-image",
-        'linear-gradient(180deg,rgba(22,153,229,.50),rgba(16,116,190,.72)),url("' + tee + '")',
+        'linear-gradient(180deg,rgba(25,166,236,.97) 0%,rgba(22,155,228,.93) 28%,rgba(16,128,203,.72) 68%,rgba(12,107,178,.68) 100%),url("' + tee + '")',
         "important"
       );
-      brand.dataset.heroApplied = "1";
+      brand.dataset.heroApplied = "2";
     }
 
     home.querySelectorAll(".aim-mode").forEach((card) => {
       const title = (card.querySelector("h2")?.childNodes?.[0]?.textContent || card.querySelector("h2")?.textContent || "").trim();
       const icon = card.querySelector(".aim-mode-icon");
-      if (icon && ICONS[title] && icon.dataset.svgApplied !== "1") {
+      if (icon && ICONS[title] && icon.dataset.svgApplied !== "2") {
         icon.innerHTML = ICONS[title];
-        icon.dataset.svgApplied = "1";
+        icon.dataset.svgApplied = "2";
       }
     });
 
     const analysis = home.querySelector(".aim-home-analysis");
-    if (analysis && analysis.dataset.restyled !== "1") {
+    if (analysis && analysis.dataset.restyled !== "2") {
       analysis.innerHTML = '<span class="ga-analysis-icon">' + ICONS["分析"] + '</span><span>番手別分析</span><span class="ga-analysis-arrow" aria-hidden="true">›</span>';
-      analysis.dataset.restyled = "1";
+      analysis.dataset.restyled = "2";
     }
+
+    addBottomNav(home);
   };
 
   const queue = () => {
@@ -1419,8 +1487,8 @@ react/cjs/react-jsx-runtime.production.js:
   });
 
   document.addEventListener("click", () => {
-    setTimeout(queue, 30);
-    setTimeout(queue, 120);
+    setTimeout(queue,30);
+    setTimeout(queue,120);
   }, true);
 
   queue();
