@@ -112,6 +112,22 @@ html,body,#root{background:var(--series-bg)!important;color:var(--series-ink)}bo
 .series-details{margin:12px 0;border:1px solid var(--series-line);border-radius:15px;background:#f8fbfd;overflow:hidden}.series-details summary{list-style:none;cursor:pointer;padding:13px 14px;font-size:13px;font-weight:900;color:var(--series-blue-dark);display:flex;align-items:center;justify-content:space-between}.series-details summary::-webkit-details-marker{display:none}.series-details summary::after{content:"⌄";font-size:17px;color:var(--series-blue)}.series-details[open] summary::after{transform:rotate(180deg)}.series-details-body{padding:2px 12px 12px;border-top:1px solid var(--series-line)}
 .aim-course-sticky-head{top:0!important;background:#fff!important;border-radius:0 0 16px 16px!important}.aim-hole-compact{background:#fff!important;border-color:var(--series-line)!important}.aim-course-club-dock{background:rgba(255,255,255,.97)!important;border-color:#b9d9ee!important;color:var(--series-ink)!important}
 @media(max-width:390px){.aim-modes{gap:8px;padding:10px}.aim-mode{min-height:145px;padding:13px}.aim-mode-copy h2{font-size:15px}}
+</style><style id="aim-club-settings-series">
+.aim-club-settings{min-height:100vh;background:#f5f8fb;color:#152638}
+.aim-settings-head{position:sticky;top:0;z-index:90;min-height:62px;display:grid;grid-template-columns:42px 1fr 42px;align-items:center;padding:max(10px,env(safe-area-inset-top)) 14px 9px;background:rgba(255,255,255,.96);border-bottom:1px solid #dbe6ee;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.aim-settings-head h1{margin:0;text-align:center;font-size:17px}.aim-settings-back{width:42px;height:42px;border-radius:50%;background:transparent;color:#1680c9;font-size:26px}
+.aim-settings-body{max-width:520px;margin:0 auto;padding:14px 14px 28px}.aim-settings-intro{margin:0 2px 12px;color:#71808d;font-size:11px;line-height:1.55}
+.aim-settings-card{background:#fff;border:1px solid #dbe6ee;border-radius:18px;box-shadow:0 7px 22px rgba(24,58,80,.08);padding:14px;margin-bottom:11px}
+.aim-settings-card h2{margin:0 0 10px;font-size:13px}.aim-skill-card p{margin:8px 0 0;color:#71808d;font-size:10px}.aim-skill-options{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.aim-skill-options button{min-height:40px;border-radius:11px;background:#fff;border:1px solid #dbe6ee;color:#40515f;font-size:11px;font-weight:800}.aim-skill-options button[aria-pressed="true"]{background:#1680c9;color:#fff;border-color:#1680c9}
+.aim-club-edit-list{display:grid;gap:8px}.aim-club-edit-row{border:1px solid #dbe6ee;border-radius:14px;padding:9px;background:#fff}.aim-club-edit-main{display:grid;grid-template-columns:minmax(0,1fr) 104px;gap:7px}
+.aim-club-edit-main input{width:100%;height:44px;border:1px solid #dbe6ee;border-radius:11px;background:#f8fbfd;padding:0 10px;color:#152638;font-size:14px;font-weight:800;outline:none}.aim-club-edit-main input:focus{background:#fff;border-color:#7eb9df}
+.aim-distance-edit{display:flex;align-items:center;gap:5px}.aim-distance-edit input{text-align:center}.aim-distance-edit span{font-size:11px;font-weight:800;color:#71808d}
+.aim-club-edit-sub{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}.aim-approach-toggle{min-height:36px;padding:0 10px;border-radius:10px;background:#edf4f8;color:#40515f;font-size:11px;font-weight:800;border:1px solid #dbe6ee}.aim-approach-toggle[aria-pressed="true"]{background:#1680c9;color:#fff;border-color:#1680c9}
+.aim-club-edit-actions{display:flex;gap:5px}.aim-order-btn,.aim-delete-btn{width:36px;height:36px;border-radius:10px;font-weight:900}.aim-order-btn{background:#eaf4fb;color:#0f5f9a}.aim-delete-btn{background:#fff0ee;color:#a54842}
+.aim-add-club{width:100%;min-height:46px;margin-top:10px;border-radius:13px;background:#fff;border:1px dashed #9dc7e1;color:#0f5f9a;font-size:13px;font-weight:850}
+.aim-settings-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.aim-settings-save,.aim-settings-cancel{min-height:50px;border-radius:14px;font-weight:850}.aim-settings-save{background:#1680c9;color:#fff}.aim-settings-cancel{background:#fff;color:#0f5f9a;border:1px solid #dbe6ee}
+@media(max-width:390px){.aim-skill-options{grid-template-columns:repeat(2,1fr)}}
 </style></head>
 <body>
   <!-- Embedded image assets used by the compiled application. -->
@@ -276,6 +292,45 @@ function AimClubAnalysis({onBack}){
   AH('section',{className:'aim-club-list'},...clubs.map(club=>{const ss=shots.filter(s=>s.club===club).map(aimNormalizeShot);const avg=aimMean(ss.map(s=>s.forward)),lat=aimMean(ss.map(s=>Math.abs(s.lateral)));return AH('button',{type:'button',className:'aim-club-row',onClick:()=>setSelected(club),key:club},AH('div',null,AH('strong',null,club),AH('small',null,`${ss.length} SHOTS`)),AH('div',{className:'aim-club-mini'},ss.length?AH(P.Fragment,null,AH('span',null,`平均 ${Math.round(avg)}yd`),AH('span',null,`左右 ${Math.round(lat)}yd`)):AH('span',null,'データなし')),AH('b',null,'›'))}))
  );
 }
+
+/* Series club settings */
+Mp=function({clubConfig,onSave,onBack,skillLevel,onSkillLevelChange}){
+  const [clubs,setClubs]=P.useState(clubConfig.map(x=>({...x})));
+  const update=(idx,key,value)=>setClubs(rows=>rows.map((row,i)=>i===idx?{...row,[key]:value}:row));
+  const remove=idx=>setClubs(rows=>rows.filter((_,i)=>i!==idx));
+  const add=()=>setClubs(rows=>[...rows,{name:'',typical:100,approach:false}]);
+  const move=(idx,delta)=>setClubs(rows=>{const next=idx+delta;if(next<0||next>=rows.length)return rows;const copy=[...rows];[copy[idx],copy[next]]=[copy[next],copy[idx]];return copy});
+  const save=()=>{const cleaned=clubs.filter(x=>x.name.trim()).map(x=>({name:x.name.trim(),typical:Number(x.typical)||100,approach:!!x.approach}));onSave(cleaned.length?cleaned:Z1)};
+  return AH('main',{className:'aim-club-settings aim-club-settings-series'},
+    AH('header',{className:'aim-settings-head'},aimButton('‹',onBack,{className:'aim-settings-back','aria-label':'戻る'}),AH('h1',null,'クラブ設定'),AH('span',{className:'aim-settings-spacer'})),
+    AH('div',{className:'aim-settings-body'},
+      AH('p',{className:'aim-settings-intro'},'クラブ名・平均飛距離を編集できます。↑↓で並び替え、×で削除できます。'),
+      AH('section',{className:'aim-settings-card aim-skill-card'},
+        AH('h2',null,'目標レベル'),
+        AH('div',{className:'aim-skill-options'},...iy.map(level=>aimButton(bf[level],()=>onSkillLevelChange(level),{'aria-pressed':skillLevel===level,key:level}))),
+        AH('p',null,'ランダム10球の成功判定に使用します。')
+      ),
+      AH('section',{className:'aim-settings-card'},
+        AH('div',{className:'aim-club-edit-list'},...clubs.map((club,idx)=>AH('div',{className:'aim-club-edit-row',key:idx},
+          AH('div',{className:'aim-club-edit-main'},
+            AH('input',{value:club.name,onChange:e=>update(idx,'name',e.target.value),placeholder:'クラブ名','aria-label':`${idx+1}番目のクラブ名`}),
+            AH('label',{className:'aim-distance-edit'},AH('input',{type:'number',inputMode:'numeric',value:club.typical,onChange:e=>update(idx,'typical',e.target.value),'aria-label':`${club.name||'クラブ'}の平均飛距離`}),AH('span',null,'yd'))
+          ),
+          AH('div',{className:'aim-club-edit-sub'},
+            aimButton(club.approach?'✓ アプローチ':'アプローチ',()=>update(idx,'approach',!club.approach),{'aria-pressed':club.approach,className:'aim-approach-toggle'}),
+            AH('div',{className:'aim-club-edit-actions'},
+              aimButton('↑',()=>move(idx,-1),{className:'aim-order-btn','aria-label':'上へ'}),
+              aimButton('↓',()=>move(idx,1),{className:'aim-order-btn','aria-label':'下へ'}),
+              aimButton('×',()=>remove(idx),{className:'aim-delete-btn','aria-label':'削除'})
+            )
+          )
+        ))),
+        aimButton('＋ クラブを追加',add,{className:'aim-add-club'})
+      ),
+      AH('div',{className:'aim-settings-actions'},aimButton('保存する',save,{className:'aim-settings-save'}),aimButton('キャンセル',onBack,{className:'aim-settings-cancel'}))
+    )
+  );
+};
 
 Ep=function({onCourse,onRandom10,onHistory,onSettings}){
  const [analysis,setAnalysis]=P.useState(false);
