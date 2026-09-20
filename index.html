@@ -804,6 +804,13 @@ react/cjs/react-jsx-runtime.production.js:
     "終了",
     "もう一度",
     "スタート",
+    "ランダム10球",
+    "コース想定",
+    "練習履歴",
+    "クラブ設定",
+    "番手別分析",
+    "ホーム",
+    "戻る",
   ];
 
   const isPracticeScreen = () => {
@@ -830,8 +837,6 @@ react/cjs/react-jsx-runtime.production.js:
   document.addEventListener(
     "click",
     (event) => {
-      if (!isPracticeScreen()) return;
-
       const button = event.target.closest("button");
       if (!button) return;
 
