@@ -137,6 +137,9 @@ html,body,#root{background:var(--series-bg)!important;color:var(--series-ink)}bo
 .aim-menu-card h2{margin:0 0 10px;font-size:13px}.aim-menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .aim-menu-primary,.aim-menu-choice,.aim-menu-links button,.aim-menu-danger{width:100%;min-height:48px;border-radius:13px;font-weight:850}
 .aim-menu-primary{background:#1680c9;color:#fff}.aim-menu-choice,.aim-menu-links button{background:#fff;color:#0f5f9a;border:1px solid #dbe6ee}
+.aim-menu-choice[aria-pressed="true"]{background:#1680c9;color:#fff;border-color:#1680c9}
+.aim-menu-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.aim-menu-club-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.aim-menu-help{margin:9px 2px 0;color:#71808d;font-size:10px;line-height:1.5}
 .aim-menu-links{display:grid;gap:8px}.aim-menu-danger{margin-top:8px;background:#fff0ee;color:#a54842;border:1px solid #f0d3cf}
 </style></head>
 <body>
@@ -651,13 +654,45 @@ Tp=function({onStart,onResume,hasActive,onHistory,onSettings,onBack,onDiscard}){
     )
   );
 };
-Ap=function({onStart,onResume,hasActive,onHistory,onBack,onDiscard}){
+Ap=function({onStart,onResume,hasActive,onHistory,onBack,onDiscard,clubs=[]}){
+  const [practiceType,setPracticeType]=P.useState('random');
+  const [shotCount,setShotCount]=P.useState(10);
+  const [fixedClub,setFixedClub]=P.useState(clubs[0]?.name||null);
+  P.useEffect(()=>{if(!fixedClub&&clubs[0]?.name)setFixedClub(clubs[0].name)},[clubs,fixedClub]);
+  const same=practiceType==='sameClub';
+  const canStart=!same||!!fixedClub;
   return AH('main',{className:'aim-menu-screen'},
-    AH(AimSeriesHeader,{title:'ランダム10球',onBack}),
+    AH(AimSeriesHeader,{title:'ショット練習',onBack}),
     AH('div',{className:'aim-menu-body'},
-      AH('p',{className:'aim-menu-lead'},'距離に合わせてクラブを選び、10球の精度を記録します。'),
-      hasActive?AH('section',{className:'aim-menu-card'},AH('h2',null,'途中の練習'),aimButton('前回の続きから再開',onResume,{className:'aim-menu-primary'}),onDiscard?aimButton('途中の練習を破棄',()=>{if(window.confirm('再開待ちの10球練習を破棄しますか？'))onDiscard()},{className:'aim-menu-danger'}):null):null,
-      AH('section',{className:'aim-menu-card'},AH('h2',null,'新しく始める'),aimButton('10球スタート',onStart,{className:'aim-menu-primary'})),
+      AH('p',{className:'aim-menu-lead'},'練習方法と球数を選んでスタートします。'),
+      hasActive?AH('section',{className:'aim-menu-card'},
+        AH('h2',null,'途中の練習'),
+        aimButton('前回の続きから再開',onResume,{className:'aim-menu-primary'}),
+        onDiscard?aimButton('途中の練習を破棄',()=>{if(window.confirm('再開待ちの練習を破棄しますか？'))onDiscard()},{className:'aim-menu-danger'}):null
+      ):null,
+      AH('section',{className:'aim-menu-card'},
+        AH('h2',null,'練習タイプ'),
+        AH('div',{className:'aim-menu-type-grid'},
+          aimButton('ランダム',()=>setPracticeType('random'),{className:'aim-menu-choice','aria-pressed':practiceType==='random'}),
+          aimButton('同じ番手',()=>setPracticeType('sameClub'),{className:'aim-menu-choice','aria-pressed':same})
+        ),
+        AH('p',{className:'aim-menu-help'},same?'1本のクラブを固定して、登録している平均飛距離を狙います。':'毎球ちがう距離が出題され、クラブを自分で選びます。')
+      ),
+      same?AH('section',{className:'aim-menu-card'},
+        AH('h2',null,'使用クラブ'),
+        AH('div',{className:'aim-menu-club-grid'},
+          ...clubs.map(club=>aimButton(`${club.name}  ${club.typical}yd`,()=>setFixedClub(club.name),{className:'aim-menu-choice','aria-pressed':fixedClub===club.name,key:club.name}))
+        )
+      ):null,
+      AH('section',{className:'aim-menu-card'},
+        AH('h2',null,'球数'),
+        AH('div',{className:'aim-menu-grid'},
+          ...[3,5,10].map(n=>aimButton(`${n}球`,()=>setShotCount(n),{className:'aim-menu-choice','aria-pressed':shotCount===n,key:n}))
+        )
+      ),
+      AH('section',{className:'aim-menu-card'},AH('h2',null,'新しく始める'),
+        aimButton(`${shotCount}球スタート`,()=>canStart&&onStart({practiceType,shotCount,fixedClub:same?fixedClub:null}),{className:'aim-menu-primary',disabled:!canStart})
+      ),
       AH('section',{className:'aim-menu-links'},aimButton('練習履歴・分析',onHistory))
     )
   );
