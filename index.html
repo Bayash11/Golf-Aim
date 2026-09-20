@@ -468,6 +468,51 @@ body:before{
   .aim-utilities{padding:0 10px 10px!important}
 }
 </style>
+
+<style id="golf-aim-global-crisp-header-v1">
+/* 2026-09-21: make every fixed header fully opaque and crisp. */
+.aim-brand,
+.aim-settings-head,
+.aim-series-head,
+.aim-analysis-head,
+.aim-history>h1,
+.aim-progress,
+.aim-course-sticky-head{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  filter:none!important;
+  opacity:1!important;
+  text-shadow:none!important;
+  -webkit-font-smoothing:antialiased!important;
+  -moz-osx-font-smoothing:grayscale!important;
+}
+
+/* Non-home headers should be solid white, never translucent. */
+.aim-settings-head,
+.aim-series-head,
+.aim-analysis-head,
+.aim-history>h1,
+.aim-progress,
+.aim-course-sticky-head{
+  background:#fff!important;
+  background-image:none!important;
+  box-shadow:0 1px 0 #dbe6ee!important;
+}
+
+/* Remove any inherited blur/opacity from header children. */
+.aim-settings-head *,
+.aim-series-head *,
+.aim-analysis-head *,
+.aim-history>h1 *,
+.aim-progress *,
+.aim-course-sticky-head *{
+  filter:none!important;
+  opacity:1!important;
+  text-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+</style>
 </head>
 <body>
   <!-- Embedded image assets used by the compiled application. -->
@@ -1490,6 +1535,99 @@ react/cjs/react-jsx-runtime.production.js:
   }, true);
 
   queue();
+})();
+</script>
+
+<script id="golf-aim-edge-swipe-back-v1">
+(() => {
+  "use strict";
+
+  const EDGE_PX = 28;
+  const TRIGGER_PX = 72;
+  const MAX_VERTICAL_PX = 54;
+
+  let tracking = false;
+  let startX = 0;
+  let startY = 0;
+  let lastX = 0;
+  let lastY = 0;
+
+  const isVisible = (el) => {
+    if (!el) return false;
+    const r = el.getBoundingClientRect();
+    const s = getComputedStyle(el);
+    return r.width > 0 && r.height > 0 && s.display !== "none" && s.visibility !== "hidden";
+  };
+
+  const findBackControl = () => {
+    const selectors = [
+      ".aim-settings-back",
+      ".aim-series-back",
+      ".aim-back",
+      'button[aria-label="戻る"]',
+      'button[title="戻る"]'
+    ];
+
+    for (const selector of selectors) {
+      const el = [...document.querySelectorAll(selector)].find(isVisible);
+      if (el) return el;
+    }
+
+    const buttons = [...document.querySelectorAll("button")].filter(isVisible);
+    return buttons.find((btn) => {
+      const label = (btn.innerText || btn.textContent || "").trim();
+      return label === "‹" || label === "←" || label === "戻る" || label.includes("ホームへ戻る");
+    }) || null;
+  };
+
+  const canSwipeBack = () => !!findBackControl();
+
+  document.addEventListener("touchstart", (event) => {
+    if (event.touches.length !== 1) return;
+    const t = event.touches[0];
+    if (t.clientX > EDGE_PX || !canSwipeBack()) return;
+
+    tracking = true;
+    startX = lastX = t.clientX;
+    startY = lastY = t.clientY;
+  }, { passive:true, capture:true });
+
+  document.addEventListener("touchmove", (event) => {
+    if (!tracking || event.touches.length !== 1) return;
+    const t = event.touches[0];
+    lastX = t.clientX;
+    lastY = t.clientY;
+
+    const dx = lastX - startX;
+    const dy = Math.abs(lastY - startY);
+
+    /* Once the movement is clearly horizontal, keep the page from
+       vertically scrolling during the back gesture. */
+    if (dx > 14 && dx > dy * 1.25 && event.cancelable) {
+      event.preventDefault();
+    }
+  }, { passive:false, capture:true });
+
+  const finish = () => {
+    if (!tracking) return;
+    tracking = false;
+
+    const dx = lastX - startX;
+    const dy = Math.abs(lastY - startY);
+
+    if (dx >= TRIGGER_PX && dy <= MAX_VERTICAL_PX && dx > dy * 1.25) {
+      const back = findBackControl();
+      if (back) {
+        back.click();
+        if (navigator.vibrate) {
+          try { navigator.vibrate(10); } catch (_) {}
+        }
+      }
+    }
+  };
+
+  document.addEventListener("touchend", finish, { passive:true, capture:true });
+  document.addEventListener("touchcancel", () => { tracking = false; }, { passive:true, capture:true });
 })();
 </script>
 </body>
