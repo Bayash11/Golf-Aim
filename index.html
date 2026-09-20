@@ -128,6 +128,16 @@ html,body,#root{background:var(--series-bg)!important;color:var(--series-ink)}bo
 .aim-add-club{width:100%;min-height:46px;margin-top:10px;border-radius:13px;background:#fff;border:1px dashed #9dc7e1;color:#0f5f9a;font-size:13px;font-weight:850}
 .aim-settings-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.aim-settings-save,.aim-settings-cancel{min-height:50px;border-radius:14px;font-weight:850}.aim-settings-save{background:#1680c9;color:#fff}.aim-settings-cancel{background:#fff;color:#0f5f9a;border:1px solid #dbe6ee}
 @media(max-width:390px){.aim-skill-options{grid-template-columns:repeat(2,1fr)}}
+</style><style id="aim-menu-series-ui">
+.aim-menu-screen{min-height:100vh;background:#f5f8fb;color:#152638}
+.aim-series-head{position:sticky;top:0;z-index:90;min-height:62px;display:grid;grid-template-columns:42px 1fr 42px;align-items:center;padding:max(10px,env(safe-area-inset-top)) 14px 9px;background:rgba(255,255,255,.96);border-bottom:1px solid #dbe6ee;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.aim-series-head h1{margin:0;text-align:center;font-size:17px}.aim-series-back{width:42px;height:42px;border-radius:50%;background:transparent;color:#1680c9;font-size:26px}.aim-series-right{width:42px}
+.aim-menu-body{max-width:520px;margin:0 auto;padding:16px 14px 30px}.aim-menu-lead{margin:0 2px 12px;color:#71808d;font-size:11px;line-height:1.55}
+.aim-menu-card,.aim-menu-links{background:#fff;border:1px solid #dbe6ee;border-radius:18px;box-shadow:0 7px 22px rgba(24,58,80,.08);padding:14px;margin-bottom:11px}
+.aim-menu-card h2{margin:0 0 10px;font-size:13px}.aim-menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.aim-menu-primary,.aim-menu-choice,.aim-menu-links button,.aim-menu-danger{width:100%;min-height:48px;border-radius:13px;font-weight:850}
+.aim-menu-primary{background:#1680c9;color:#fff}.aim-menu-choice,.aim-menu-links button{background:#fff;color:#0f5f9a;border:1px solid #dbe6ee}
+.aim-menu-links{display:grid;gap:8px}.aim-menu-danger{margin-top:8px;background:#fff0ee;color:#a54842;border:1px solid #f0d3cf}
 </style></head>
 <body>
   <!-- Embedded image assets used by the compiled application. -->
@@ -576,6 +586,32 @@ pp=function(props){
  const detailFields=AH('details',{className:'series-details',key:'details'},AH('summary',null,'＋ 詳細を入力'),AH('div',{className:'series-details-body'},_gaSection('上下の打点',_gaChoiceRows(_gaRowsVertical,t.contactVertical,d=>l('contactVertical',d))),_gaSection('左右の打点',_gaChoiceRows(_gaRowsHorizontal,t.contactHorizontal,d=>l('contactHorizontal',d))),_gaSection('ミス要因（複数可）',_gaMultiRows(_gaRowsMiss,t.contactOther,e,s.ob)),_gaSection('良かった点（複数可）',_gaMultiRows(_gaRowsPositive,t.contactPositive,a,s.fairway)),!t.isApproach?_gaSection('実際の球筋',_gaChoiceRows(_gaRowsCurve,t.resultCurve,d=>l('resultCurve',d),s.fairway,3)):null));
  const children=[AH('div',{className:'flex items-center justify-between mb-1',key:'head'},AH('div',{className:'font-black text-lg',style:{color:s.ink}},t.club),AH('button',{onClick:o,className:'p-1 rounded-full',style:{background:s.panelDim},'aria-label':'閉じる'},AH(ff,{size:16,color:s.ink}))),t.targetPosition?AH('div',{className:'text-xs font-bold mb-1',style:{color:s.flag},key:'target'},`🎯 目標 ${t.targetDistance}yd`):null,AH('div',{className:'text-xs font-bold mb-3',style:{color:s.goldDim},key:'plan'},`狙い：${t.isApproach?t.style:`${t.trajectoryHeight}／${t.curveBase}`}`),AH('button',{onClick:u,className:'w-full py-3 rounded-xl font-black text-sm mb-4 flex items-center justify-center gap-2',style:{background:s.gold,color:'#fff'},key:'true'},AH(li,{size:16}),' 🎯 狙い通り'),AH(hy,{lateral:t.lateral,onChange:d=>l('lateral',d),step:t.isApproach?1:5,key:'lat'}),AH(vy,{forward:t.forward,onChange:d=>l('forward',d),typical:t.typical,isApproach:t.isApproach,carry:t.carry,roll:t.roll,onCarryChange:d=>l('carry',d),onRollChange:d=>l('roll',d),fineStep:t.isApproach?1:5,key:'dist'}),t.isApproach?_gaSection('結果（距離感）',AH(Qt,{options:F1,value:t.approachResult,onChange:d=>l('approachResult',d),activeColor:s.goldDim})):null,hole?AH(AimLandingPreview,{key:'landing-preview',hole,pending:t,onField:l}):null,AH('div',{className:'mb-3',key:'lie'},AH('div',{className:'text-xs font-bold mb-1',style:{color:s.inkSoft}},'結果ライ（自動判定・修正可）'),AH('select',{value:f,onChange:d=>n(d.target.value),className:'w-full py-2.5 px-3 rounded-lg font-bold text-sm',style:{background:'#fff',color:s.ink,border:'1px solid #dbe6ee'}},...Og.map(d=>AH('option',{value:d,key:d},d)))),detailFields,r?AH('div',{className:'rounded-lg px-3 py-2 mb-3 text-sm font-bold',style:{background:'#F6DAD3',color:s.ob},key:'pen'},'⚠️ ペナルティ+1 ／ 同じ場所から打ち直しです'):null,AH(Ot,{onClick:c,color:s.fairway,textColor:'#fff',key:'confirm'},AH('span',{className:'flex items-center justify-center gap-2'},AH(rf,{size:18}),' 確定して次へ'))];
  return AH('div',{className:'rounded-2xl p-4 mb-3 aim-result-panel',style:{background:s.panel}},...children);
+};
+
+function AimSeriesHeader({title,onBack,right=null}){
+  return AH('header',{className:'aim-series-head'},aimButton('‹',onBack,{className:'aim-series-back','aria-label':'戻る'}),AH('h1',null,title),AH('div',{className:'aim-series-right'},right));
+}
+Tp=function({onStart,onResume,hasActive,onHistory,onSettings,onBack,onDiscard}){
+  return AH('main',{className:'aim-menu-screen'},
+    AH(AimSeriesHeader,{title:'コース想定',onBack}),
+    AH('div',{className:'aim-menu-body'},
+      AH('p',{className:'aim-menu-lead'},'ホール数を選び、1球ずつコースを想定して練習します。'),
+      hasActive?AH('section',{className:'aim-menu-card'},AH('h2',null,'途中の練習'),aimButton('前回の続きから再開',onResume,{className:'aim-menu-primary'}),onDiscard?aimButton('途中の練習を破棄',()=>{if(window.confirm('再開待ちのラウンドを破棄しますか？'))onDiscard()},{className:'aim-menu-danger'}):null):null,
+      AH('section',{className:'aim-menu-card'},AH('h2',null,'新しく始める'),AH('div',{className:'aim-menu-grid'},...[3,9,18].map(n=>aimButton(`${n}ホール`,()=>onStart(n),{key:n,className:'aim-menu-choice'})))),
+      AH('section',{className:'aim-menu-links'},aimButton('練習履歴',onHistory),aimButton('クラブ設定',onSettings))
+    )
+  );
+};
+Ap=function({onStart,onResume,hasActive,onHistory,onBack,onDiscard}){
+  return AH('main',{className:'aim-menu-screen'},
+    AH(AimSeriesHeader,{title:'ランダム10球',onBack}),
+    AH('div',{className:'aim-menu-body'},
+      AH('p',{className:'aim-menu-lead'},'距離に合わせてクラブを選び、10球の精度を記録します。'),
+      hasActive?AH('section',{className:'aim-menu-card'},AH('h2',null,'途中の練習'),aimButton('前回の続きから再開',onResume,{className:'aim-menu-primary'}),onDiscard?aimButton('途中の練習を破棄',()=>{if(window.confirm('再開待ちの10球練習を破棄しますか？'))onDiscard()},{className:'aim-menu-danger'}):null):null,
+      AH('section',{className:'aim-menu-card'},AH('h2',null,'新しく始める'),aimButton('10球スタート',onStart,{className:'aim-menu-primary'})),
+      AH('section',{className:'aim-menu-links'},aimButton('練習履歴・分析',onHistory))
+    )
+  );
 };
 
 /* ===== 2026-09-17 evaluation logic v2 ===== */
