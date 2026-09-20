@@ -218,6 +218,238 @@ body:before{
   inset-block-start:0!important;
 }
 </style>
+
+<style id="golf-aim-reference-home-v1">
+/* 2026-09-21: align the home screen with the approved blue GOLF AiM reference image. */
+
+/* Remove the iOS frosted-glass effect from every fixed app header. */
+.aim-brand,
+.aim-settings-head,
+.aim-series-head,
+.aim-analysis-head,
+.aim-history>h1,
+.aim-progress,
+.aim-course-sticky-head{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  filter:none!important;
+}
+
+/* Non-home headers stay crisp and opaque. */
+.aim-settings-head,
+.aim-series-head,
+.aim-analysis-head,
+.aim-history>h1,
+.aim-progress,
+.aim-course-sticky-head{
+  background:#fff!important;
+}
+
+/* Home hero: compact blue golf visual inspired by the reference image. */
+.aim-brand{
+  min-height:190px!important;
+  height:190px!important;
+  padding:calc(env(safe-area-inset-top,0px) + 22px) 22px 22px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  text-align:center!important;
+  gap:4px!important;
+  overflow:hidden!important;
+  border-bottom:0!important;
+  box-shadow:0 5px 18px rgba(17,82,126,.16)!important;
+  background-color:#168bd7!important;
+  background-size:cover!important;
+  background-position:center 56%!important;
+  background-repeat:no-repeat!important;
+}
+.aim-brand h1{
+  position:relative!important;
+  z-index:2!important;
+  margin:0!important;
+  color:#fff!important;
+  font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif!important;
+  font-size:35px!important;
+  line-height:1.05!important;
+  font-weight:850!important;
+  letter-spacing:.035em!important;
+  text-shadow:0 2px 10px rgba(0,62,112,.25)!important;
+}
+.aim-brand p{
+  position:relative!important;
+  z-index:2!important;
+  margin:5px 0 0!important;
+  color:rgba(255,255,255,.94)!important;
+  font-size:13px!important;
+  line-height:1.4!important;
+  font-weight:650!important;
+  letter-spacing:.08em!important;
+  text-shadow:0 1px 7px rgba(0,62,112,.28)!important;
+}
+
+/* The reference is visual-first, so remove the redundant section heading/copy. */
+.aim-home-intro{
+  display:none!important;
+}
+
+/* Menu cards: white, light, compact and icon-led. */
+.aim-modes{
+  grid-template-columns:1fr 1fr!important;
+  gap:12px!important;
+  padding:18px 14px 12px!important;
+}
+.aim-mode{
+  position:relative!important;
+  min-height:166px!important;
+  padding:15px 14px 16px!important;
+  border:1px solid #d5e4ee!important;
+  border-radius:20px!important;
+  background:#fff!important;
+  box-shadow:0 8px 22px rgba(28,87,123,.10)!important;
+  color:#10283a!important;
+}
+.aim-mode-icon{
+  width:48px!important;
+  height:48px!important;
+  min-width:48px!important;
+  margin:0 0 14px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:15px!important;
+  background:#e7f5fd!important;
+  color:#1596df!important;
+  font-size:0!important;
+}
+.aim-mode-icon svg{
+  width:27px!important;
+  height:27px!important;
+  stroke:currentColor!important;
+  fill:none!important;
+  stroke-width:2.15!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.aim-mode-copy{
+  width:100%!important;
+  padding:0!important;
+}
+.aim-mode-copy small{
+  display:block!important;
+  margin:0 0 6px!important;
+  color:#128bd0!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+  font-weight:850!important;
+  letter-spacing:.075em!important;
+}
+.aim-mode-copy h2{
+  margin:0 28px 5px 0!important;
+  color:#10283a!important;
+  font-size:18px!important;
+  line-height:1.25!important;
+  font-weight:900!important;
+  letter-spacing:0!important;
+}
+.aim-mode-copy h2 span{
+  position:absolute!important;
+  right:14px!important;
+  bottom:20px!important;
+  float:none!important;
+  color:#1596df!important;
+  font-size:29px!important;
+  line-height:1!important;
+  font-weight:600!important;
+}
+.aim-mode-copy p{
+  margin:0!important;
+  padding-right:16px!important;
+  color:#70808c!important;
+  font-size:12.5px!important;
+  line-height:1.45!important;
+  font-weight:500!important;
+}
+
+/* Analysis becomes part of the same home-card family. */
+.aim-utilities{
+  display:block!important;
+  margin:0!important;
+  padding:0 14px 10px!important;
+}
+.aim-utilities .aim-home-analysis{
+  position:relative!important;
+  width:100%!important;
+  min-height:68px!important;
+  padding:0 52px 0 62px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:11px!important;
+  border:1px solid #d5e4ee!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  box-shadow:0 7px 18px rgba(28,87,123,.08)!important;
+  color:#105e91!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  text-align:left!important;
+}
+.ga-analysis-icon{
+  position:absolute!important;
+  left:15px!important;
+  top:50%!important;
+  width:36px!important;
+  height:36px!important;
+  transform:translateY(-50%)!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:12px!important;
+  background:#e7f5fd!important;
+  color:#1596df!important;
+}
+.ga-analysis-icon svg{
+  width:21px!important;
+  height:21px!important;
+  stroke:currentColor!important;
+  fill:none!important;
+  stroke-width:2.1!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+.ga-analysis-arrow{
+  position:absolute!important;
+  right:18px!important;
+  top:50%!important;
+  transform:translateY(-52%)!important;
+  color:#1596df!important;
+  font-size:27px!important;
+  line-height:1!important;
+  font-weight:600!important;
+}
+.aim-home footer{
+  display:none!important;
+}
+
+/* Keep the overall home surface light-blue like the reference. */
+.aim-home{
+  background:linear-gradient(180deg,#eef7fc 0%,#f4f8fb 62%,#f7fafc 100%)!important;
+  min-height:100dvh!important;
+}
+
+@media(max-width:390px){
+  .aim-brand{
+    min-height:176px!important;
+    height:176px!important;
+  }
+  .aim-brand h1{font-size:31px!important}
+  .aim-modes{gap:9px!important;padding:14px 10px 10px!important}
+  .aim-mode{min-height:158px!important;padding:13px 12px 14px!important}
+  .aim-mode-icon{width:44px!important;height:44px!important;margin-bottom:12px!important}
+  .aim-mode-copy h2{font-size:17px!important}
+  .aim-mode-copy p{font-size:12px!important}
+  .aim-utilities{padding:0 10px 10px!important}
+}
+</style>
 </head>
 <body>
   <!-- Embedded image assets used by the compiled application. -->
@@ -1127,6 +1359,71 @@ react/cjs/react-jsx-runtime.production.js:
   }, true);
 
   queueSync();
+})();
+</script>
+
+<script id="golf-aim-reference-home-runtime-v1">
+(() => {
+  "use strict";
+
+  const ICONS = {
+    "ショット練習": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="1.4"></circle><path d="M17.7 6.3 21 3"></path><path d="M18.6 3H21v2.4"></path></svg>',
+    "コース想定": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21V3"></path><path d="M7 4h9l-2.2 3L16 10H7"></path><path d="M4 21h7"></path></svg>',
+    "練習履歴": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9"></path><path d="M10 19V5"></path><path d="M16 19V12"></path><path d="M22 19V3"></path></svg>',
+    "クラブ設定": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.86 2.86-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H9.4v-.1A1.7 1.7 0 0 0 9 19.8a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.86-2.86.06-.06A1.7 1.7 0 0 0 3.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H1.8V9.4h.1A1.7 1.7 0 0 0 3 9a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88L3.2 6.06 6.06 3.2l.06.06A1.7 1.7 0 0 0 8 3.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V1.8h4.2v.1A1.7 1.7 0 0 0 14 3a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.86 2.86-.06.06A1.7 1.7 0 0 0 19.4 8c.15.38.36.72.6 1 .29.27.67.41 1.1.4h.1v4.2h-.1a1.7 1.7 0 0 0-1.1.4 1.7 1.7 0 0 0-.6 1z"></path></svg>',
+    "分析": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V11"></path><path d="M12 19V6"></path><path d="M19 19V3"></path></svg>'
+  };
+
+  let raf = 0;
+
+  const apply = () => {
+    raf = 0;
+    const home = document.querySelector(".aim-home");
+    if (!home) return;
+
+    const brand = home.querySelector(".aim-brand");
+    const tee = window.GOLF_AIM_ASSETS && window.GOLF_AIM_ASSETS.tee;
+    if (brand && tee && !brand.dataset.heroApplied) {
+      brand.style.setProperty(
+        "background-image",
+        'linear-gradient(180deg,rgba(22,153,229,.50),rgba(16,116,190,.72)),url("' + tee + '")',
+        "important"
+      );
+      brand.dataset.heroApplied = "1";
+    }
+
+    home.querySelectorAll(".aim-mode").forEach((card) => {
+      const title = (card.querySelector("h2")?.childNodes?.[0]?.textContent || card.querySelector("h2")?.textContent || "").trim();
+      const icon = card.querySelector(".aim-mode-icon");
+      if (icon && ICONS[title] && icon.dataset.svgApplied !== "1") {
+        icon.innerHTML = ICONS[title];
+        icon.dataset.svgApplied = "1";
+      }
+    });
+
+    const analysis = home.querySelector(".aim-home-analysis");
+    if (analysis && analysis.dataset.restyled !== "1") {
+      analysis.innerHTML = '<span class="ga-analysis-icon">' + ICONS["分析"] + '</span><span>番手別分析</span><span class="ga-analysis-arrow" aria-hidden="true">›</span>';
+      analysis.dataset.restyled = "1";
+    }
+  };
+
+  const queue = () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => requestAnimationFrame(apply));
+  };
+
+  new MutationObserver(queue).observe(document.getElementById("root"), {
+    childList:true,
+    subtree:true
+  });
+
+  document.addEventListener("click", () => {
+    setTimeout(queue, 30);
+    setTimeout(queue, 120);
+  }, true);
+
+  queue();
 })();
 </script>
 </body>
