@@ -887,6 +887,59 @@ body,.aim-home,.aim-practice-menu,.aim-club-settings{background:var(--ga-bg)!imp
  filter:drop-shadow(0 1px 1px rgba(0,0,0,.12));
 }
 </style>
+
+<style id="golf-aim-shot-flow-v3">
+.aim-practice-discard-btn{min-width:72px!important;min-height:38px!important;padding:0 12px!important;border:1px solid #D8A9A4!important;border-radius:11px!important;background:#fff!important;color:#A14B44!important;font-size:12px!important;font-weight:850!important}
+.aim-practice-resume-actions{display:flex;gap:7px;align-items:center}
+.aim-shot-progress{padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 10px!important}
+.aim-shot-progress-top{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;margin-bottom:7px}
+.aim-shot-progress-title{color:#fff;font-size:15px;font-weight:900;letter-spacing:.02em}
+.aim-shot-progress-count{color:rgba(255,255,255,.86);font-size:11px;font-weight:800}
+.aim-shot-progress-dots{display:flex;justify-content:center;gap:6px}
+.aim-shot-progress-dots span{width:8px!important;height:8px!important;border-radius:999px;background:rgba(255,255,255,.36)!important}
+.aim-shot-progress-dots span.active{background:#fff!important}
+.aim-random{color:var(--ga-ink,#10283A)!important}
+.aim-distance{background:#fff!important;border:1px solid var(--ga-line,#D5E3EC)!important;border-radius:18px!important;margin-bottom:10px!important}
+.aim-distance p,.aim-distance strong,.aim-distance span{color:var(--ga-ink,#10283A)!important}
+.aim-random-art{border-radius:16px!important;overflow:hidden!important}
+.aim-situation,.aim-plan{background:#fff!important;border:1px solid var(--ga-line,#D5E3EC)!important;color:var(--ga-ink,#10283A)!important;box-shadow:0 6px 18px rgba(24,58,80,.06)!important}
+.aim-situation h3,.aim-plan h3,.aim-plan label,.aim-situation p,.aim-situation strong{color:var(--ga-ink,#10283A)!important}
+.aim-shot-section-title{margin:14px 0 8px;color:var(--ga-ink,#10283A);font-size:14px;font-weight:900;text-align:left}
+.aim-clubs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}
+.aim-clubs button{min-width:0!important;min-height:48px!important;padding:7px 2px!important;border:1px solid var(--ga-line,#D5E3EC)!important;border-radius:12px!important;background:#fff!important;color:var(--ga-main,#0F6FAE)!important;font-size:13px!important;font-weight:850!important}
+.aim-clubs button[aria-pressed=true]{background:var(--ga-main,#0F6FAE)!important;color:#fff!important;border-color:var(--ga-main,#0F6FAE)!important}
+.aim-shot-choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.aim-shot-choice-grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.aim-shot-choice-grid button{min-width:0;min-height:44px;padding:7px 4px;border:1px solid var(--ga-line,#D5E3EC);border-radius:11px;background:#fff;color:var(--ga-ink,#10283A);font-size:12px;line-height:1.2;font-weight:800}
+.aim-shot-choice-grid button[aria-pressed=true]{background:var(--ga-main,#0F6FAE);border-color:var(--ga-main,#0F6FAE);color:#fff}
+.aim-primary{background:var(--ga-strong,#0A5F98)!important;border-color:var(--ga-strong,#0A5F98)!important;color:#fff!important}
+.aim-result-panel-v3{padding:0!important;overflow:hidden!important;background:#fff!important;border:1px solid var(--ga-line,#D5E3EC)!important;border-radius:18px!important;box-shadow:0 8px 24px rgba(24,58,80,.08)!important}
+.aim-result-head-v3{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;min-height:58px;padding:8px 10px;background:var(--ga-main,#0F6FAE);color:#fff}
+.aim-result-head-v3 .spacer{width:42px}
+.aim-result-head-v3 h2{margin:0;text-align:center;font-size:16px;font-weight:900}
+.aim-result-head-v3 button{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.14);color:#fff;font-size:24px;line-height:1}
+.aim-result-body-v3{padding:14px}
+.aim-result-summary-v3{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.aim-result-summary-v3>div{padding:10px 11px;border-radius:12px;background:var(--ga-pale,#EAF4FA)}
+.aim-result-summary-v3 small{display:block;color:var(--ga-muted,#6F8190);font-size:9px;font-weight:800}
+.aim-result-summary-v3 strong{display:block;margin-top:2px;color:var(--ga-ink,#10283A);font-size:13px;font-weight:900}
+.aim-result-true-v3{width:100%;min-height:48px;margin-bottom:14px;border-radius:12px;background:var(--ga-main,#0F6FAE);color:#fff;font-size:14px;font-weight:900}
+.aim-result-section-v3{margin:0 0 14px}
+.aim-result-section-v3 h3{margin:0 0 7px;color:var(--ga-ink,#10283A);font-size:12px;font-weight:900}
+.aim-result-choice{gap:7px!important}
+.aim-result-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+.aim-result-row button{min-height:46px!important;padding:7px 4px!important;border:1px solid var(--ga-line,#D5E3EC)!important;border-radius:11px!important;background:#fff!important;color:var(--ga-ink,#10283A)!important;font-size:12px!important;font-weight:800!important}
+.aim-result-row button[aria-pressed=true]{background:var(--ga-main,#0F6FAE)!important;border-color:var(--ga-main,#0F6FAE)!important;color:#fff!important}
+.aim-distance-step-v3{margin-bottom:14px;padding:12px;border:1px solid var(--ga-line,#D5E3EC);border-radius:14px;background:#F9FBFD}
+.aim-distance-step-v3-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.aim-distance-step-v3-title span{font-size:11px;font-weight:850;color:var(--ga-muted,#6F8190)}
+.aim-distance-step-v3-title strong{font-size:20px;color:var(--ga-ink,#10283A)}
+.aim-distance-step-v3-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.aim-distance-step-v3-controls button{min-height:44px;border:1px solid var(--ga-line,#D5E3EC);border-radius:11px;background:#fff;color:var(--ga-main,#0F6FAE);font-size:13px;font-weight:900}
+.aim-result-lie-v3 label{display:block;margin-bottom:6px;color:var(--ga-ink,#10283A);font-size:12px;font-weight:900}
+.aim-result-lie-v3 select{width:100%;min-height:44px;padding:0 10px;border:1px solid var(--ga-line,#D5E3EC);border-radius:11px;background:#fff;color:var(--ga-ink,#10283A);font-size:13px;font-weight:800}
+@media(max-width:390px){.aim-clubs{gap:6px!important}.aim-shot-choice-grid{gap:6px}.aim-result-row{gap:5px!important}}
+</style>
 </head>
 <body>
   <!-- Embedded image assets used by the compiled application. -->
