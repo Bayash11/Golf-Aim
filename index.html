@@ -1578,6 +1578,84 @@ Ap=function({onStart,onResume,hasActive,onHistory,onBack,onDiscard,onSettings,cl
     )
   );
 };
+/* ===== 2026-09-21 shot flow v3 ===== */
+Yg=function(t,l,e){
+  const a=[];
+  if(l){const w=q(18,30),d=q(18,32);a.push({label:'グリーンサイズ',value:'奥行'+d+'yd × 幅'+w+'yd'});a.push({label:'ピン位置',value:e});}
+  else{a.push({label:'フェアウェイ幅',value:q(22,38)+'yd'});}
+  const approach=t<=90;
+  if(approach){
+    if(Math.random()<.35){const side=Mt(['左','右']);a.push({label:'バンカー（グリーン'+side+'）',value:'グリーンサイド'});}
+    else if(Math.random()<.20){const side=Mt(['左','右']);a.push({label:'池（'+side+'）',value:'グリーンサイドに広がる',warn:true});}
+    return a;
+  }
+  if(t>=100&&Math.random()<.45){const side=Mt(['左','右']);a.push({label:'OB（'+side+'）',value:'中心から'+q(18,35)+'yd',warn:true});}
+  if(Math.random()<.45){
+    if(l){const side=Mt(['グリーン左','グリーン右','グリーン手前']);if(side==='グリーン手前'){const carry=Math.max(12,t-q(18,28));a.push({label:'池（'+side+'）',value:'越えるには'+carry+'yd',warn:true});}else{a.push({label:'池（'+side+'）',value:'グリーンサイドに広がる',warn:true});}}
+    else{const side=Mt(['左','右']);const near=Math.max(25,Math.round(t*.45));a.push({label:'池（'+side+'）',value:near+'yd付近',warn:true});}
+  }
+  if(Math.random()<.5){const pos=l?Mt(['グリーン手前','グリーン左','グリーン右']):Mt(['フェアウェイ左','フェアウェイ右']);const yd=l?Math.max(0,t-q(5,14)):q(Math.max(25,t-60),Math.max(30,t-15));a.push({label:'バンカー（'+pos+'）',value:yd+'yd先'});}
+  return a.slice(0,l?4:3);
+};
+
+function gaChoiceGrid(options,value,onChange,cols=3){
+  return AH('div',{className:'aim-shot-choice-grid '+(cols===2?'cols-2':'')},...options.map(opt=>aimButton(opt,()=>onChange(opt),{'aria-pressed':value===opt,key:opt})));
+}
+
+zp=function({target,shotIndex,totalShots=10,selectedClub,onClub,clubs,isApproach,plan,onPlanField,onStartShot}){
+  const approach=Number(target.targetDistance)<=90;
+  const info=(target.courseInfo||[]).filter(x=>{if(!approach)return true;if(String(x.label||'').startsWith('OB'))return false;if(String(x.label||'').includes('池（グリーン奥'))return false;return true;});
+  return AH('section',{className:'aim-random'},
+    AH('div',{className:'aim-progress aim-shot-progress','aria-label':(shotIndex+1)+'球目、全'+totalShots+'球'},
+      AH('div',{className:'aim-shot-progress-top'},AH('div',{className:'aim-shot-progress-title'},'ショット練習'),AH('div',{className:'aim-shot-progress-count'},(shotIndex+1)+' / '+totalShots)),
+      AH('div',{className:'aim-shot-progress-dots'},...Array.from({length:totalShots},(_,idx)=>AH('span',{key:idx,className:idx<=shotIndex?'active':''})))
+    ),
+    AH('div',{className:'aim-distance'},AH('p',null,'今回の距離'),AH('strong',null,target.targetDistance),AH('span',null,'yd')),
+    AH('img',{className:'aim-random-art',src:ASSET[aimSceneKey(target)]||ASSET.range,alt:aimSceneAlt[aimSceneKey(target)],width:960,height:240}),
+    info.length?AH('section',{className:'aim-situation'},AH('h3',null,'状況を確認'),...info.map((x,idx)=>AH('p',{key:idx},AH('strong',null,x.label+'：'),x.value))):null,
+    AH('h2',{className:'aim-shot-section-title'},'クラブを選択'),
+    AH('div',{className:'aim-clubs'},...clubs.map(club=>aimButton(club,()=>onClub(club),{key:club,'aria-pressed':club===selectedClub}))),
+    selectedClub?AH('section',{className:'aim-plan'},
+      AH('h3',null,'狙い・球筋を調整'),
+      AH('label',null,'狙う場所'),gaChoiceGrid(target.isGreenShot?xg:Sg,plan.aimTarget,v=>onPlanField('aimTarget',v),3),
+      AH('label',null,isApproach?'打ち方':'球の高さ'),gaChoiceGrid(isApproach?K1:J1,isApproach?plan.style:plan.trajectoryHeight,v=>onPlanField(isApproach?'style':'trajectoryHeight',v),3),
+      !isApproach?AH(P.Fragment,null,AH('label',null,'球筋'),gaChoiceGrid($1,plan.curveBase,v=>onPlanField('curveBase',v),3)):null,
+      aimButton('この内容で打つ',onStartShot,{className:'aim-primary'})
+    ):AH('p',{className:'aim-hint'},'使うクラブを選んでください')
+  );
+};
+
+function gaApproachDistance(label,value,onChange){
+  const v=Math.max(0,Number(value)||0);
+  return AH('div',{className:'aim-distance-step-v3'},AH('div',{className:'aim-distance-step-v3-title'},AH('span',null,label),AH('strong',null,v+' yd')),AH('div',{className:'aim-distance-step-v3-controls'},aimButton('− 1yd',()=>onChange(Math.max(0,v-1))),aimButton('＋ 1yd',()=>onChange(v+1))));
+}
+function gaResultSectionV3(title,body){return AH('section',{className:'aim-result-section-v3'},AH('h3',null,title),body)}
+
+function gaResultInputV3(props){
+  const target=props.target,p=props.pending,l=props.onField,e=props.onToggleOther,a=props.onTogglePositive,n=props.onOverrideLie,u=props.onAimTrue,c=props.onConfirm,o=props.onCancel,hole=props.hole;
+  const f=p.overrideLie??p.computed?.lie;const r=f==='OB'||f==='池';
+  const targetDistance=target?.targetDistance??p.targetDistance??p.typical??0;
+  const aimText=p.aimTarget?(p.aimTarget+'／'+(p.isApproach?p.style:(p.trajectoryHeight+'／'+p.curveBase))):(p.isApproach?p.style:(p.trajectoryHeight+'／'+p.curveBase));
+  const body=[
+    AH('div',{className:'aim-result-summary-v3',key:'summary'},AH('div',null,AH('small',null,'クラブ'),AH('strong',null,p.club)),AH('div',null,AH('small',null,'目標'),AH('strong',null,targetDistance+'yd')),AH('div',null,AH('small',null,'狙い'),AH('strong',null,aimText||'—')),AH('div',null,AH('small',null,'モード'),AH('strong',null,p.isApproach?'アプローチ':'ショット'))),
+    aimButton('🎯 狙い通り（目標を達成）',u,{className:'aim-result-true-v3',key:'true'}),
+    gaResultSectionV3('上下の打点',_gaChoiceRows(_gaRowsVertical,p.contactVertical,d=>l('contactVertical',d),'#0F6FAE')),
+    gaResultSectionV3('左右の打点',_gaChoiceRows(_gaRowsHorizontal,p.contactHorizontal,d=>l('contactHorizontal',d),'#0F6FAE')),
+    gaResultSectionV3('ミス要因（複数可）',_gaMultiRows(_gaRowsMiss,p.contactOther,e,'#0F6FAE')),
+    gaResultSectionV3('良かった点（複数可）',_gaMultiRows(_gaRowsPositive,p.contactPositive,a,'#0F6FAE')),
+    !p.isApproach?gaResultSectionV3('実際の球筋',_gaChoiceRows(_gaRowsCurve,p.resultCurve,d=>l('resultCurve',d),'#0F6FAE',3)):null,
+    AH(hy,{lateral:p.lateral,onChange:d=>l('lateral',d),step:p.isApproach?1:5,key:'lat'}),
+    p.isApproach?AH(P.Fragment,{key:'approach-distance'},gaApproachDistance('キャリー',p.carry??p.forward,d=>{l('carry',d);l('forward',d+(Number(p.roll)||0))}),gaApproachDistance('ラン（転がり）',p.roll??0,d=>{l('roll',d);l('forward',(Number(p.carry??p.forward)||0)+d)})):AH(vy,{forward:p.forward,onChange:d=>l('forward',d),typical:p.typical??targetDistance,isApproach:false,carry:p.carry,roll:p.roll,onCarryChange:d=>l('carry',d),onRollChange:d=>l('roll',d),fineStep:5,key:'dist'}),
+    hole?AH(AimLandingPreview,{key:'landing-preview',hole,pending:p,onField:l}):null,
+    n?AH('div',{className:'aim-result-lie-v3',key:'lie'},AH('label',null,'結果ライ（自動判定・修正可）'),AH('select',{value:f,onChange:d=>n(d.target.value)},...Og.map(d=>AH('option',{value:d,key:d},d)))):null,
+    r?AH('div',{className:'rounded-lg px-3 py-2 mb-3 text-sm font-bold',style:{background:'#F6DAD3',color:'#A14B44'},key:'pen'},'⚠️ ペナルティ+1 ／ 同じ場所から打ち直しです'):null,
+    AH(Ot,{onClick:c,color:'#0A5F98',textColor:'#fff',key:'confirm'},AH('span',{className:'flex items-center justify-center gap-2'},AH(rf,{size:18}),' 確定して次へ'))
+  ].filter(Boolean);
+  return AH('div',{className:'aim-result-panel aim-result-panel-v3'},AH('header',{className:'aim-result-head-v3'},AH('div',{className:'spacer'}),AH('h2',null,'結果入力'),aimButton('×',o,{'aria-label':'閉じる'})),AH('div',{className:'aim-result-body-v3'},...body));
+}
+Cp=function(props){return gaResultInputV3(props)};
+pp=function(props){return gaResultInputV3(props)};
+
 /* ===== 2026-09-17 evaluation logic v2 ===== */
 const _gaLegacyCoursePerformance = up;
 const _gaSkillLevels = [
