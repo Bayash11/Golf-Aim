@@ -825,6 +825,68 @@ body:before{
   padding-bottom:calc(122px + env(safe-area-inset-bottom,0px))!important;
 }
 </style>
+
+<style id="golf-aim-brand-refresh-v1">
+:root{
+ --ga-main:#0F6FAE;
+ --ga-strong:#0A5F98;
+ --ga-accent:#168FD1;
+ --ga-pale:#EAF4FA;
+ --ga-bg:#F4F8FB;
+ --ga-ink:#10283A;
+ --ga-muted:#6F8190;
+ --ga-line:#D5E3EC;
+}
+/* White-base brand refresh */
+body,.aim-home,.aim-practice-menu,.aim-club-settings{background:var(--ga-bg)!important;color:var(--ga-ink)!important}
+.aim-mode-icon{color:var(--ga-accent)!important}
+.aim-mode-copy .aim-mode-kicker,.aim-mode-copy .aim-mode-tag{color:var(--ga-main)!important}
+.aim-mode-copy h2,.aim-practice-block h2{color:var(--ga-ink)!important}
+.aim-mode-copy p{color:var(--ga-muted)!important}
+.aim-mode,.aim-practice-setup{border-color:var(--ga-line)!important}
+.aim-bottom-nav button[aria-current="page"]{color:var(--ga-main)!important}
+.aim-practice-type-grid button,.aim-practice-count-grid button,.aim-practice-club-grid button{color:var(--ga-main)!important;border-color:var(--ga-line)!important}
+.aim-practice-type-grid button[aria-pressed=true],
+.aim-practice-count-grid button[aria-pressed=true],
+.aim-practice-club-grid button[aria-pressed=true]{background:var(--ga-main)!important;border-color:var(--ga-main)!important;color:#fff!important}
+.aim-practice-start-btn{background:var(--ga-strong)!important}
+.aim-practice-start-dock{background:var(--ga-bg)!important}
+.aim-practice-bottom-nav button{color:#7b8f9e!important}
+.aim-practice-bottom-nav button:active,.aim-practice-bottom-nav button:focus-visible{color:var(--ga-main)!important}
+
+/* Shared non-home header: stronger blue, white title/back */
+.aim-settings-head,.aim-series-head,.aim-analysis-head,.aim-history>h1,.aim-progress,.aim-course-sticky-head{
+ background:var(--ga-main)!important;
+ background-image:none!important;
+ color:#fff!important;
+ border-color:var(--ga-main)!important;
+ box-shadow:0 1px 0 rgba(10,95,152,.35)!important;
+}
+.aim-settings-head h1,.aim-series-head h1,.aim-analysis-head h1,.aim-settings-back,.aim-series-back,.aim-analysis-back,.aim-back{
+ color:#fff!important;
+}
+
+/* Home hero: deepen the approved blue while preserving the golf image. */
+.aim-brand:before{
+ background:linear-gradient(180deg,rgba(15,111,174,.93) 0%,rgba(15,111,174,.78) 48%,rgba(10,95,152,.64) 100%)!important;
+}
+.aim-brand h1,.aim-brand p{color:#fff!important}
+
+/* Flag-i wordmark accent, drawn without changing the app name text. */
+.aim-brand h1{position:relative!important;display:inline-block!important}
+.aim-brand h1:after{
+ content:"";
+ position:absolute;
+ width:0;height:0;
+ border-top:5px solid transparent;
+ border-bottom:5px solid transparent;
+ border-left:10px solid var(--ga-accent);
+ top:5px;
+ left:calc(50% + 24px);
+ transform:rotate(-4deg);
+ filter:drop-shadow(0 1px 1px rgba(0,0,0,.12));
+}
+</style>
 </head>
 <body>
   <!-- Embedded image assets used by the compiled application. -->
