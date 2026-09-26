@@ -1330,6 +1330,320 @@ body,.aim-home,.aim-practice-menu,.aim-club-settings{background:var(--ga-bg)!imp
   .aim-recent-metrics strong{font-size:20px!important}
 }
 </style>
+
+<style id="golf-aim-data-mode-step13">
+/* STEP13: Data mode top / recent practice. Existing data and club-detail logic are intentionally preserved. */
+.aim-data-mode{
+  --data-orange:#FF6A24;
+  --data-blue:#2F6FE4;
+  --data-bg:#F8FAFC;
+  --data-card:#FFFFFF;
+  --data-soft:#F1F4F8;
+  --data-line:#DDE3EA;
+  --data-ink:#172033;
+  --data-muted:#667085;
+  width:100%;
+  max-width:520px;
+  min-height:100dvh;
+  margin:0 auto;
+  background:var(--data-bg);
+  color:var(--data-ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  padding-bottom:calc(66px + env(safe-area-inset-bottom,0px));
+  box-sizing:border-box;
+}
+.aim-data-head{
+  position:fixed;
+  z-index:116;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(100%,520px);
+  min-height:calc(54px + env(safe-area-inset-top,0px));
+  padding:calc(env(safe-area-inset-top,0px) + 8px) 16px 8px;
+  display:grid;
+  grid-template-columns:44px 1fr 44px;
+  align-items:center;
+  background:#fff;
+  border-bottom:1px solid var(--data-line);
+  box-sizing:border-box;
+}
+.aim-data-head h1{
+  margin:0;
+  text-align:center;
+  color:var(--data-ink);
+  font-size:19px;
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:.01em;
+}
+.aim-data-head-side{width:44px;height:1px}
+.aim-data-body{
+  padding:calc(70px + env(safe-area-inset-top,0px)) 12px 20px;
+}
+.aim-data-tabs{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+  margin:4px 0 12px;
+}
+.aim-data-tabs button{
+  min-width:0;
+  min-height:38px;
+  padding:7px 3px;
+  border:1px solid var(--data-line);
+  border-radius:12px;
+  background:#fff;
+  color:var(--data-muted);
+  font-size:11px;
+  line-height:1;
+  font-weight:750;
+  box-shadow:0 2px 7px rgba(23,32,51,.035);
+}
+.aim-data-tabs button[aria-pressed=true]{
+  border-color:var(--data-orange);
+  background:var(--data-orange);
+  color:#fff;
+  box-shadow:0 5px 12px rgba(255,106,36,.18);
+}
+.aim-data-card{
+  margin:0 0 11px;
+  padding:14px;
+  border:0;
+  border-radius:16px;
+  background:var(--data-card);
+  box-shadow:0 5px 16px rgba(23,32,51,.065);
+}
+.aim-data-section-title{
+  position:relative;
+  margin:0;
+  padding-left:10px;
+  color:var(--data-ink);
+  font-size:14px;
+  line-height:1.35;
+  font-weight:800;
+}
+.aim-data-section-title:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:1px;
+  bottom:1px;
+  width:3px;
+  border-radius:99px;
+  background:var(--data-orange);
+}
+.aim-data-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:6px;
+  margin-top:12px;
+}
+.aim-data-summary-grid>div{
+  min-width:0;
+  min-height:66px;
+  padding:9px 3px 8px;
+  border-radius:12px;
+  background:var(--data-soft);
+  text-align:center;
+}
+.aim-data-summary-grid small{
+  display:block;
+  min-height:26px;
+  color:var(--data-muted);
+  font-size:9px!important;
+  line-height:1.3!important;
+  font-weight:650;
+}
+.aim-data-summary-grid strong{
+  display:inline;
+  color:var(--data-ink);
+  font-size:22px;
+  line-height:1.15;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+.aim-data-summary-grid span{
+  margin-left:2px;
+  color:var(--data-muted);
+  font-size:9px;
+  font-weight:700;
+}
+.aim-data-card-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.aim-data-see-all{
+  min-height:30px!important;
+  padding:3px 0!important;
+  border:0!important;
+  background:transparent!important;
+  color:var(--data-blue)!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+.aim-data-recent-list{
+  margin-top:8px;
+}
+.aim-data-recent-row{
+  width:100%;
+  min-height:61px;
+  padding:8px 2px;
+  display:grid;
+  grid-template-columns:45px 34px minmax(0,1fr) 16px;
+  align-items:center;
+  gap:7px;
+  border:0;
+  border-top:1px solid #ECF0F4;
+  background:transparent;
+  color:var(--data-ink);
+  text-align:left;
+}
+.aim-data-recent-row:first-child{border-top:0}
+.aim-data-date{
+  text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+.aim-data-date strong{
+  display:block;
+  font-size:12px;
+  line-height:1.15;
+  font-weight:800;
+}
+.aim-data-date small{
+  display:block;
+  margin-top:3px;
+  color:var(--data-muted);
+  font-size:8px!important;
+  line-height:1!important;
+}
+.aim-data-session-icon{
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+}
+.aim-data-session-icon svg{width:21px;height:21px}
+.aim-data-session-icon.random{background:#EEF3FF;color:var(--data-blue)}
+.aim-data-session-icon.course{background:#ECF9F3;color:#10B981}
+.aim-data-session-copy{min-width:0}
+.aim-data-session-copy>strong{
+  display:block;
+  overflow:hidden;
+  color:var(--data-ink);
+  font-size:11.5px;
+  line-height:1.25;
+  font-weight:800;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.aim-data-session-copy>small{
+  display:block;
+  overflow:hidden;
+  margin-top:4px;
+  color:var(--data-muted);
+  font-size:8.8px!important;
+  line-height:1.35!important;
+  font-weight:550;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.aim-data-session-copy b{color:var(--data-ink);font-weight:800}
+.aim-data-row-arrow{
+  color:#AAB3C0;
+  font-size:22px;
+  line-height:1;
+  font-weight:500;
+}
+.aim-data-club-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px;
+  margin-top:12px;
+}
+.aim-data-club-grid button{
+  min-width:0;
+  min-height:52px;
+  padding:7px 2px;
+  border:1px solid var(--data-line);
+  border-radius:12px;
+  background:#fff;
+  color:var(--data-blue);
+  text-align:center;
+}
+.aim-data-club-grid button span{display:block;min-width:0}
+.aim-data-club-grid strong{
+  display:block;
+  overflow:hidden;
+  font-size:13px;
+  line-height:1.1;
+  font-weight:800;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.aim-data-club-grid small{
+  display:block;
+  margin-top:4px;
+  color:var(--data-muted);
+  font-size:8px!important;
+  line-height:1!important;
+  font-weight:650;
+}
+.aim-data-loading,.aim-data-empty{
+  padding:20px 4px 8px;
+  color:var(--data-muted);
+  font-size:11px;
+  line-height:1.5;
+  text-align:center;
+}
+.aim-data-bottom-nav{
+  position:fixed;
+  z-index:120;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:min(100%,520px);
+  min-height:52px;
+  padding:4px 8px calc(4px + env(safe-area-inset-bottom,0px));
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:rgba(255,255,255,.985);
+  border-top:1px solid var(--data-line);
+  box-shadow:0 -5px 16px rgba(23,32,51,.055);
+  box-sizing:border-box;
+}
+.aim-data-bottom-nav button{
+  min-height:42px;
+  padding:2px;
+  border:0;
+  background:transparent;
+  color:#8A97A6;
+}
+.aim-data-bottom-nav button>span{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1px;
+}
+.aim-data-bottom-nav svg{width:20px;height:20px}
+.aim-data-bottom-nav small{
+  font-size:8.5px!important;
+  line-height:1!important;
+  font-weight:750;
+}
+.aim-data-bottom-nav button[aria-current=page]{color:var(--data-orange)}
+@media(max-width:360px){
+  .aim-data-body{padding-left:9px;padding-right:9px}
+  .aim-data-card{padding:12px}
+  .aim-data-summary-grid{grid-template-columns:repeat(2,1fr)}
+  .aim-data-club-grid{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+
 </head>
 <body>
   <!-- Embedded image assets used by the compiled application. -->
@@ -1484,16 +1798,165 @@ function AimClubDetail({club,shots,onBack}){
    AH('section',{className:'aim-analysis-card'},AH('h2',null,'ミス傾向'),missRows.length?AH('div',{className:'aim-miss-list'},...missRows.map(([m,c])=>AH('div',{key:m},AH('span',null,m),AH('div',{className:'aim-miss-bar'},AH('i',{style:{width:`${Math.max(5,aimPct(c,n))}%`}})),AH('strong',null,`${aimPct(c,n)}%`)))):AH('p',{className:'aim-analysis-note'},'記録されているミス項目はありません。'))
  );
 }
-function AimClubAnalysis({onBack}){
- const [loaded,setLoaded]=P.useState(false),[shots,setShots]=P.useState([]),[clubs,setClubs]=P.useState([]),[selected,setSelected]=P.useState(null);
- P.useEffect(()=>{let live=true;(async()=>{const [rounds,randoms,cfg]=await Promise.all([H1(),L1(),Rg()]);if(!live)return;const flat=aimFlattenShots(rounds,randoms);setShots(flat);const configured=(cfg||[]).map(c=>c.name);const fromData=[...new Set(flat.map(s=>s.club))];setClubs([...new Set([...configured,...fromData])]);setLoaded(true)})();return()=>{live=false}},[]);
- if(selected)return AH(AimClubDetail,{club:selected,shots,onBack:()=>setSelected(null)});
- return AH('main',{className:'aim-analysis'},AH('header',{className:'aim-analysis-head'},aimButton('‹ ホーム',onBack,{className:'aim-back'}),AH('div',null,AH('small',null,'SHOT DATA'),AH('h1',null,'番手別分析'))),
-  AH('p',{className:'aim-analysis-intro'},'コース想定とランダム10球の記録から、番手ごとの距離・方向・ミス傾向を確認できます。'),
-  !loaded?AH('div',{className:'aim-analysis-empty'},'読み込み中…'):clubs.length===0?AH('section',{className:'aim-analysis-empty'},AH('h2',null,'まだショットデータがありません'),AH('p',null,'ランダム10球またはコース想定を記録すると、ここに自動集計されます。')):
-  AH('section',{className:'aim-club-list'},...clubs.map(club=>{const ss=shots.filter(s=>s.club===club).map(aimNormalizeShot);const avg=aimMean(ss.map(s=>s.forward)),lat=aimMean(ss.map(s=>Math.abs(s.lateral)));return AH('button',{type:'button',className:'aim-club-row',onClick:()=>setSelected(club),key:club},AH('div',null,AH('strong',null,club),AH('small',null,`${ss.length} SHOTS`)),AH('div',{className:'aim-club-mini'},ss.length?AH(P.Fragment,null,AH('span',null,`平均 ${Math.round(avg)}yd`),AH('span',null,`左右 ${Math.round(lat)}yd`)):AH('span',null,'データなし')),AH('b',null,'›'))}))
+
+function aimDataDateValue(value){
+ const m=String(value||'').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
+ if(!m)return 0;
+ const d=new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));
+ return Number.isFinite(d.getTime())?d.getTime():0;
+}
+function aimDataDateParts(value){
+ const m=String(value||'').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
+ if(!m)return {main:String(value||'-'),sub:''};
+ const d=new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));
+ const wd=['日','月','火','水','木','金','土'];
+ return {main:Number(m[2])+'/'+Number(m[3]),sub:wd[d.getDay()]+'曜'};
+}
+function aimDataNumber(value){
+ if(!Number.isFinite(value))return '—';
+ const rounded=Math.round(value*10)/10;
+ return Number.isInteger(rounded)?String(rounded):rounded.toFixed(1);
+}
+function aimDataShotMetrics(sh){
+ const course=sh._source==='course';
+ const ev=course?(sh.evaluation||null):null;
+ const rawSuccess=course?(ev&&typeof ev.success==='boolean'?ev.success:null):(typeof sh.success==='boolean'?sh.success:(typeof sh.resultSuccess==='boolean'?sh.resultSuccess:null));
+ const target=Number(sh.targetDistance ?? sh.before?.targetDistance);
+ const forward=Number(sh.forward);
+ const lateral=Number(sh.lateral);
+ let dist=course?Number(ev?.distanceError):Number(sh.distanceError);
+ let lat=course?Number(ev?.lateralError):Number(sh.lateralError);
+ if(!Number.isFinite(dist)&&Number.isFinite(target)&&Number.isFinite(forward))dist=Math.abs(forward-target);
+ if(!Number.isFinite(lat)&&Number.isFinite(lateral))lat=Math.abs(lateral);
+ return {success:rawSuccess,dist:Number.isFinite(dist)?Math.abs(dist):null,lat:Number.isFinite(lat)?Math.abs(lat):null};
+}
+function AimDataSessionIcon({kind}){
+ if(kind==='course')return AH('svg',{viewBox:'0 0 36 36','aria-hidden':true},
+  AH('path',{d:'M11 29V7',fill:'none',stroke:'currentColor',strokeWidth:3,strokeLinecap:'round'}),
+  AH('path',{d:'M12 8h14l-4 5 4 5H12z',fill:'currentColor'}),
+  AH('ellipse',{cx:13,cy:29,rx:7,ry:2.5,fill:'currentColor',opacity:.28})
+ );
+ return AH('svg',{viewBox:'0 0 36 36','aria-hidden':true},
+  AH('rect',{x:7,y:7,width:22,height:22,rx:6,fill:'none',stroke:'currentColor',strokeWidth:2.7}),
+  ...[[13,13],[23,13],[18,18],[13,23],[23,23]].map((p,i)=>AH('circle',{cx:p[0],cy:p[1],r:1.8,fill:'currentColor',key:i}))
  );
 }
+function AimDataNavIcon({kind}){
+ if(kind==='home')return AH('svg',{viewBox:'0 0 32 32','aria-hidden':true},AH('path',{d:'M5 15.2 16 6l11 9.2V27H19v-8h-6v8H5z',fill:'currentColor'}));
+ if(kind==='practice')return AH('svg',{viewBox:'0 0 32 32','aria-hidden':true},AH('circle',{cx:16,cy:16,r:10,fill:'none',stroke:'currentColor',strokeWidth:2.6}),AH('circle',{cx:16,cy:16,r:5,fill:'none',stroke:'currentColor',strokeWidth:2.6}),AH('circle',{cx:16,cy:16,r:2,fill:'currentColor'}));
+ if(kind==='settings')return AH('svg',{viewBox:'0 0 32 32','aria-hidden':true},AH('path',{d:'M13.5 4h5l.7 3a10.5 10.5 0 0 1 2.1.9l2.6-1.6 3.6 3.6-1.6 2.6c.4.7.7 1.4.9 2.1l3 .7v5l-3 .7a10.5 10.5 0 0 1-.9 2.1l1.6 2.6-3.6 3.6-2.6-1.6a10.5 10.5 0 0 1-2.1.9l-.7 3h-5l-.7-3a10.5 10.5 0 0 1-2.1-.9l-2.6 1.6-3.6-3.6 1.6-2.6a10.5 10.5 0 0 1-.9-2.1l-3-.7v-5l3-.7c.2-.7.5-1.4.9-2.1L4.5 9.9l3.6-3.6 2.6 1.6a10.5 10.5 0 0 1 2.1-.9zM16 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z',fill:'currentColor'}));
+ return AH('svg',{viewBox:'0 0 32 32','aria-hidden':true},AH('rect',{x:5,y:18,width:5,height:9,rx:1.5,fill:'currentColor'}),AH('rect',{x:13.5,y:12,width:5,height:15,rx:1.5,fill:'currentColor'}),AH('rect',{x:22,y:6,width:5,height:21,rx:1.5,fill:'currentColor'}));
+}
+function AimClubAnalysis({onBack,onPractice,onSettings,onHistory}){
+ const [loaded,setLoaded]=P.useState(false);
+ const [shots,setShots]=P.useState([]);
+ const [rounds,setRounds]=P.useState([]);
+ const [randoms,setRandoms]=P.useState([]);
+ const [clubs,setClubs]=P.useState([]);
+ const [selected,setSelected]=P.useState(null);
+ const [range,setRange]=P.useState('recent10');
+
+ P.useEffect(()=>{let live=true;(async()=>{
+   const [roundData,randomData,cfg]=await Promise.all([H1(),L1(),Rg()]);
+   if(!live)return;
+   const rs=roundData||[], rands=randomData||[];
+   const flat=aimFlattenShots(rs,rands);
+   const configured=(cfg||[]).map(c=>c.name);
+   const fromData=[...new Set(flat.map(s=>s.club))];
+   setRounds(rs);setRandoms(rands);setShots(flat);
+   setClubs([...new Set([...configured,...fromData])]);
+   setLoaded(true);
+ })();return()=>{live=false}},[]);
+
+ const sessions=[];
+ rounds.forEach((entry,index)=>sessions.push({kind:'course',entry,sort:aimDataDateValue(entry.date),order:index}));
+ randoms.forEach((entry,index)=>sessions.push({kind:'random10',entry,sort:aimDataDateValue(entry.date),order:rounds.length+index}));
+ sessions.sort((a,b)=>(b.sort-a.sort)||(a.order-b.order));
+
+ let picked=sessions;
+ if(range==='recent10')picked=sessions.slice(0,10);
+ if(range==='1m'||range==='3m'){
+   const days=range==='1m'?30:90;
+   const cutoff=Date.now()-days*24*60*60*1000;
+   picked=sessions.filter(x=>x.sort>=cutoff);
+ }
+ const pickedEntries=new Set(picked.map(x=>x.entry));
+ const pickedRounds=rounds.filter(x=>pickedEntries.has(x));
+ const pickedRandoms=randoms.filter(x=>pickedEntries.has(x));
+ const filteredShots=aimFlattenShots(pickedRounds,pickedRandoms);
+ const metricRows=filteredShots.map(aimDataShotMetrics);
+ const successRows=metricRows.filter(x=>typeof x.success==='boolean');
+ const distRows=metricRows.map(x=>x.dist).filter(Number.isFinite);
+ const latRows=metricRows.map(x=>x.lat).filter(Number.isFinite);
+ const successRate=successRows.length?Math.round(successRows.filter(x=>x.success).length/successRows.length*100):null;
+ const avgDist=distRows.length?aimMean(distRows):null;
+ const avgLat=latRows.length?aimMean(latRows):null;
+ const recent=picked.slice(0,3);
+
+ if(selected)return AH(AimClubDetail,{club:selected,shots:filteredShots,onBack:()=>setSelected(null)});
+
+ const ranges=[['recent10','直近10回'],['1m','1か月'],['3m','3か月'],['all','すべて']];
+ const goPractice=onPractice||onBack;
+ const goSettings=onSettings||onBack;
+ const goHistory=onHistory||null;
+
+ return AH('main',{className:'aim-data-mode'},
+   AH('header',{className:'aim-data-head'},AH('span',{className:'aim-data-head-side'}),AH('h1',null,'データ'),AH('span',{className:'aim-data-head-side'})),
+   AH('div',{className:'aim-data-body'},
+     AH('div',{className:'aim-data-tabs','aria-label':'集計期間'},...ranges.map(r=>aimButton(r[1],()=>setRange(r[0]),{'aria-pressed':range===r[0],key:r[0]}))),
+     AH('section',{className:'aim-data-card'},
+       AH('h2',{className:'aim-data-section-title'},'全体サマリー'),
+       !loaded?AH('div',{className:'aim-data-loading'},'読み込み中…'):
+       AH('div',{className:'aim-data-summary-grid'},
+         AH('div',null,AH('small',null,'練習回数'),AH('strong',null,picked.length),AH('span',null,'回')),
+         AH('div',null,AH('small',null,'成功率'),AH('strong',null,successRate===null?'—':successRate),AH('span',null,successRate===null?'':'%')),
+         AH('div',null,AH('small',null,'平均距離誤差'),AH('strong',null,aimDataNumber(avgDist)),AH('span',null,avgDist===null?'':'yd')),
+         AH('div',null,AH('small',null,'平均横ズレ'),AH('strong',null,aimDataNumber(avgLat)),AH('span',null,avgLat===null?'':'yd'))
+       )
+     ),
+     AH('section',{className:'aim-data-card aim-data-recent-card'},
+       AH('div',{className:'aim-data-card-head'},AH('h2',{className:'aim-data-section-title'},'最近の練習'),goHistory?aimButton('すべて見る  ›',goHistory,{className:'aim-data-see-all'}):null),
+       !loaded?AH('div',{className:'aim-data-loading'},'読み込み中…'):
+       recent.length===0?AH('div',{className:'aim-data-empty'},'まだ練習履歴がありません'):
+       AH('div',{className:'aim-data-recent-list'},...recent.map((item,index)=>{
+         const d=aimDataDateParts(item.entry.date);
+         const isCourse=item.kind==='course';
+         const total=item.entry.totalShots||item.entry.shotCount||((item.entry.shots||[]).length)||0;
+         const title=isCourse?('コース想定 '+(item.entry.holeCount||item.entry.playedHoles||'')+'H'):(item.entry.practiceType==='sameClub'?('同じ番手 '+(item.entry.fixedClub||'')+' '+total+'球'):('ランダム'+total+'球'));
+         const randomSuccess=Number.isFinite(Number(item.entry.success))?String(item.entry.success)+'/'+String(total):'—';
+         const score=Number.isFinite(Number(item.entry.diff))?((Number(item.entry.diff)>=0?'+':'')+Number(item.entry.diff)):'—';
+         return AH('button',{type:'button',className:'aim-data-recent-row',onClick:goHistory||undefined,key:(item.entry.sessionId||item.entry.date||index)+item.kind},
+           AH('div',{className:'aim-data-date'},AH('strong',null,d.main),AH('small',null,d.sub)),
+           AH('div',{className:'aim-data-session-icon '+(isCourse?'course':'random')},AH(AimDataSessionIcon,{kind:item.kind})),
+           AH('div',{className:'aim-data-session-copy'},
+             AH('strong',null,title),
+             isCourse?
+               AH('small',null,'スコア ',AH('b',null,score)):
+               AH('small',null,'成功 ',AH('b',null,randomSuccess),'　距離 ',AH('b',null,aimDataNumber(Number(item.entry.avgDistanceError))+'yd'),'　横 ',AH('b',null,aimDataNumber(Number(item.entry.avgLateralError))+'yd'))
+           ),
+           AH('span',{className:'aim-data-row-arrow','aria-hidden':true},'›')
+         );
+       }))
+     ),
+     AH('section',{className:'aim-data-card aim-data-club-card'},
+       AH('h2',{className:'aim-data-section-title'},'クラブ別データ'),
+       !loaded?AH('div',{className:'aim-data-loading'},'読み込み中…'):
+       clubs.length===0?AH('div',{className:'aim-data-empty'},'クラブまたはショットデータがありません'):
+       AH('div',{className:'aim-data-club-grid'},...clubs.map(club=>{
+         const count=filteredShots.filter(s=>s.club===club).length;
+         return aimButton(AH('span',null,AH('strong',null,club),AH('small',null,count?String(count)+'球':'—')),()=>setSelected(club),{key:club,'aria-label':club+'のデータを見る'});
+       }))
+     )
+   ),
+   AH('nav',{className:'aim-data-bottom-nav','aria-label':'メインメニュー'},
+     aimButton(AH('span',null,AH(AimDataNavIcon,{kind:'home'}),AH('small',null,'ホーム')),onBack,{'aria-label':'ホーム'}),
+     aimButton(AH('span',null,AH(AimDataNavIcon,{kind:'practice'}),AH('small',null,'練習')),goPractice,{'aria-label':'練習'}),
+     aimButton(AH('span',null,AH(AimDataNavIcon,{kind:'data'}),AH('small',null,'データ')),()=>window.scrollTo({top:0,left:0,behavior:'smooth'}),{'aria-current':'page','aria-label':'データ'}),
+     aimButton(AH('span',null,AH(AimDataNavIcon,{kind:'settings'}),AH('small',null,'設定')),goSettings,{'aria-label':'設定'})
+   )
+ );
+}
+
 
 /* Series club settings */
 Mp=function({clubConfig,onSave,onBack,skillLevel,onSkillLevelChange}){
@@ -1536,7 +1999,7 @@ Mp=function({clubConfig,onSave,onBack,skillLevel,onSkillLevelChange}){
 
 Ep=function({onCourse,onRandom10,onHistory,onSettings}){
  const [analysis,setAnalysis]=P.useState(false);
- if(analysis)return AH(AimClubAnalysis,{onBack:()=>setAnalysis(false)});
+ if(analysis)return AH(AimClubAnalysis,{onBack:()=>setAnalysis(false),onPractice:onRandom10,onSettings,onHistory});
  const modes=[
    [onRandom10,'球','ショット練習','ランダム／同じ番手で精度を磨く','3 / 5 / 10 SHOTS'],
    [onCourse,'旗','コース想定','狙いを決めて、1球ずつ','COURSE'],
@@ -1607,7 +2070,7 @@ Ap=function({onStart,onResume,hasActive,onHistory,onBack,onSettings,clubs=[]}){
  const [fixedClub,setFixedClub]=P.useState(clubs[0]?.name||null);
  const [analysis,setAnalysis]=P.useState(false);
  P.useEffect(()=>{if(!fixedClub&&clubs[0]?.name)setFixedClub(clubs[0].name)},[clubs,fixedClub]);
- if(analysis)return AH(AimClubAnalysis,{onBack:()=>setAnalysis(false)});
+ if(analysis)return AH(AimClubAnalysis,{onBack:()=>setAnalysis(false),onPractice:()=>setAnalysis(false),onSettings,onHistory});
  const same=practiceType==='sameClub';
  const canStart=!same||!!fixedClub;
  const typeLabel=same?'同じ番手':'ランダム';
